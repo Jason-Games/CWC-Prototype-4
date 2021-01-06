@@ -5,24 +5,32 @@ using UnityEngine;
 public class SpawnManager : MonoBehaviour
 {
     public GameObject Enemy;
+    public GameObject PowerUp;
     public float spawnRange = 8;
+    private int level = 1;
     // Start is called before the first frame update
     void Start()
     {
-        InvokeRepeating("Spawn", 1f, 4f);
+        // InvokeRepeating("Spawn", 1f, 4f);
+
+       Spawn(level++);
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        int enemyCount = FindObjectsOfType<Enemy>().Length;
+        if (enemyCount <= 0) Spawn(level++); 
     }
 
-    void Spawn()
+    void Spawn(int enemyCount)
     {
-
+        Instantiate(PowerUp, SpawnPosition(), PowerUp.transform.rotation); ;
+        for (int i = 0; i < enemyCount; i++)
+        {
+            Instantiate(Enemy, SpawnPosition(), Enemy.transform.rotation); 
+        }
         
-        Instantiate(Enemy, SpawnPosition() , Enemy.transform.rotation);;
     }
 
     Vector3 SpawnPosition()
